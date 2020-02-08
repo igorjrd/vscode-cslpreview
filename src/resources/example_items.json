@@ -1,0 +1,133 @@
+
+[{
+    "id": 3886,
+    "type": "article-journal",
+    "title": "An adaptable metric shapes perceptual space",
+    "container-title": "Current Biology",
+    "page": "1911-1915",
+    "volume": "26",
+    "issue": "14",
+    "source": "www.cell.com",
+    "URL": "http://www.cell.com/current-biology/abstract/S0960-9822(16)30544-9",
+    "DOI": "10.1016/j.cub.2016.05.047",
+    "ISSN": "0960-9822",
+    "journalAbbreviation": "Curr. Biol.",
+    "language": "en",
+    "author": [{
+        "family": "Hisakata",
+        "given": "Rumi"
+    }, {
+        "family": "Nishida",
+        "given": "Shin'ya"
+    }, {
+        "family": "Johnston",
+        "given": "Alan"
+    }],
+    "issued": {
+        "date-parts": [
+            [
+                "2016",
+                7,
+                25
+            ]
+        ]
+    },
+    "accessed": {
+        "date-parts": [
+            [
+                "2016",
+                10,
+                3
+            ]
+        ]
+    }
+}, {
+    "id": 3884,
+    "type": "webpage",
+    "title": "The secret Tesla Motors master plan (just between you and me)",
+    "container-title": "Tesla Blog",
+    "abstract": "Background: My day job is running a space transportation company called SpaceX, but on the side I am the chairman of Tesla Motors and help formulate the business and product strategy with Martin and the rest of the team. I have also been Tesla Motor&#39;s primary funding source from when the company was just three people and a business plan.",
+    "URL": "https://www.tesla.com/blog/secret-tesla-motors-master-plan-just-between-you-and-me",
+    "author": [{
+        "family": "Musk",
+        "given": "Elon"
+    }],
+    "issued": {
+        "date-parts": [
+            [
+                "2006",
+                8,
+                2
+            ]
+        ]
+    },
+    "accessed": {
+        "date-parts": [
+            [
+                "2016",
+                9,
+                29
+            ]
+        ]
+    }
+
+}, {
+    "id": 3881,
+    "type": "chapter",
+    "title": "Structure databases",
+    "container-title": "Bioinformatics",
+    "collection-title": "Life Sciences Series",
+    "publisher": "Wiley-Interscience",
+    "publisher-place": "New York, NY",
+    "page": "83-109",
+    "edition": "2",
+    "event-place": "New York, NY",
+    "ISBN": "0471383910",
+    "language": "en-US",
+    "author": [{
+        "family": "Hogue",
+        "given": "Christopher W. V."
+    }],
+    "editor": [{
+        "family": "Baxevanis",
+        "given": "Andreas D."
+    }, {
+        "family": "Ouellette",
+        "given": "B. F. Francis"
+    }],
+    "issued": {
+        "date-parts": [
+            [
+                "2001"
+            ]
+        ]
+    }
+}, {
+    "id": 3877,
+    "type": "book",
+    "title": "Molecular cloning: a laboratory manual",
+    "publisher": "CSHL Press",
+    "publisher-place": "Cold Spring Harbor, NY",
+    "number-of-pages": "999",
+    "edition": "3",
+    "event-place": "Cold Spring Harbor, NY",
+    "ISBN": "0879695773",
+    "shortTitle": "Molecular cloning",
+    "language": "en-US",
+    "author": [{
+        "family": "Sambrook",
+        "given": "Joe"
+    }, {
+        "family": "Russell",
+        "given": "David William"
+    }],
+    "issued": {
+        "date-parts": [
+            [
+                "2001",
+                1,
+                15
+            ]
+        ]
+    }
+}]

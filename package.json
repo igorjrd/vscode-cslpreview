@@ -1,0 +1,101 @@
+{
+	"name": "csl",
+	"displayName": "CSL example",
+	"description": "Test CSL example",
+	"version": "0.0.1",
+	"publisher": "igorjrd",
+	"engines": {
+		"vscode": "^1.41.0"
+	},
+	"categories": [
+		"Other"
+	],
+	"activationEvents": [
+		"onLanguage:xml"
+	],
+	"main": "./src/extension.js",
+	"icon": "media/cslpreview.png",
+	"contributes": {
+		"commands": [
+			{
+				"command": "cslPreview.showCslPreview",
+				"title": "CSL Preview: Show CSL preview",
+				"icon": {
+					"light": "./media/show-preview-inv.svg",
+					"dark": "./media/show-preview.svg"
+				}
+			},
+			{
+				"command": "cslPreview.refreshCslPreview",
+				"title": "CSL Preview: Refresh CSL Preview",
+				"icon": {
+					"light": "./media/refresh-preview-inv.svg",
+					"dark": "./media/refresh-preview.svg"
+				}
+			},
+			{
+				"command": "cslPreview.showPreviewSource",
+				"title": "CSL Preview: Show source",
+				"icon": {
+					"light": "./media/view-source-inv.svg",
+					"dark": "./media/view-source.svg"
+				}
+			}
+		],
+		"menus": {
+			"editor/title": [
+				{
+					"command": "cslPreview.showCslPreview",
+					"when": "editorLangId == xml",
+					"group": "navigation"
+				},
+				{
+					"command": "cslPreview.showPreviewSource",
+					"when": "CSLPreviewActive",
+					"group": "navigation"
+				},
+				{
+					"command": "cslPreview.refreshCslPreview",
+					"when": "CSLPreviewActive || cslSourceActive",
+					"group": "navigation"
+				}
+			],
+			"commandPalette": [
+				{
+					"command": "cslPreview.showCslPreview",
+					"when": "editorLangId == xml",
+					"group": "navigation"
+				},
+				{
+					"command": "cslPreview.showPreviewSource",
+					"when": "CSLPreviewActive",
+					"group": "navigation"
+				},
+				{
+					"command": "cslPreview.refreshCslPreview",
+					"when": "CSLPreviewActive || cslSourceActive",
+					"group": "navigation"
+				}
+			]
+		}
+	},
+	"scripts": {
+		"test": "node ./test/runTest.js"
+	},
+	"devDependencies": {
+		"@types/glob": "^7.1.1",
+		"@types/mocha": "^5.2.7",
+		"@types/node": "^12.11.7",
+		"@types/vscode": "^1.41.0",
+		"eslint": "^6.6.0",
+		"glob": "^7.1.5",
+		"mocha": "^6.2.2",
+		"typescript": "^3.6.4",
+		"vscode-test": "^1.2.2"
+	},
+	"dependencies": {
+		"ajv": "^6.11.0",
+		"citeproc": "^2.2.30",
+		"xmlhttprequest": "^1.8.0"
+	}
+}
