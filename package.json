@@ -1,8 +1,8 @@
 {
-	"name": "csl",
-	"displayName": "CSL example",
-	"description": "Test CSL example",
-	"version": "0.0.1",
+	"name": "cslpreview",
+	"displayName": "CSL Preview",
+	"description": "Previews for Citation Style Language bibliographic data structuring codes",
+	"version": "0.1.0",
 	"publisher": "igorjrd",
 	"engines": {
 		"vscode": "^1.41.0"
@@ -10,6 +10,20 @@
 	"categories": [
 		"Other"
 	],
+	"keywords": [
+		"csl","bibliography","citation","academics","citation style language","preview"
+	],
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/igorjrd/vscode-cslpreview.git"
+	},
+	"bugs": {
+		"url": "https://github.com/igorjrd/vscode-cslpreview/issues"
+	},
+	"galleryBanner": {
+		"color": "#ffffff",
+		"theme": "light"
+	},
 	"activationEvents": [
 		"onLanguage:xml"
 	],
