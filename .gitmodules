@@ -1,3 +1,0 @@
-[submodule "src/resources/locales"]
-	path = src/resources/locales
-	url = https://github.com/citation-style-language/locales
