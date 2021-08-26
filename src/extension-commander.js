@@ -44,6 +44,7 @@ module.exports = class ExtensionCommander {
       })
       .then((path) => {
         try {
+          this.manager.filePath = path || defaultFilePath;
           let citables = utils.getCitablesFromJson(path || defaultFilePath);
           this.manager.createController(citables);
         } catch (e) {
