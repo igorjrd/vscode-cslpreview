@@ -2,3 +2,4 @@ node_modules/
 jsconfig.json
 .eslintrc.json
 test/
+*.vsix

@@ -2,6 +2,27 @@
 
 A [Visual Studio Code](https://code.visualstudio.com/) extension that permits to easily check previews of how [Citation Style Language](https://citationstyles.org/) (CSL) code is structuring bibliographic data. It is strongly based in [Zotero](https://www.zotero.org/) preview, available at Zotero style code editor.
 
+## Install method
+
+**Install package tool**
+
+```
+npm install -g vsce
+```
+
+**Package vsix file**
+
+```
+npm install
+vsce package
+```
+
+**Install in vscode**
+
+1. from VSCode's main menu, select “Extensions”
+2. click to open the three-dot menu at the top of the middle panel (see screenshot above)
+3. select “Install from VSIX…” and follow the prompts.
+
 ## Features
 
 ### Show CSL Preview
@@ -30,14 +51,20 @@ There is no know issues at the moment. If you experience trobles when using the 
 
 ## Release Notes
 
+### 1.0
+
+- Support Chinese Styles
+- Support customized local JSON Data
+- Refresh automatically after json update and style update
+
 ### 0.1.0
 
 Initial release of CSL Preview for Visual Studio Code
 
 Initial features:
 
-* Support to multiple CSL preview windows linked to different text editor windows
-* Bibliographic data used at preview can be from extension standard bibliographic data or an user input DOI
-* Show CSL Preview, Refresh CSL Preview and Show CSL Source icons placed in text editor and preview windows and also in Command Palette
+- Support to multiple CSL preview windows linked to different text editor windows
+- Bibliographic data used at preview can be from extension standard bibliographic data or an user input DOI
+- Show CSL Preview, Refresh CSL Preview and Show CSL Source icons placed in text editor and preview windows and also in Command Palette
 
 **Enjoy!**
