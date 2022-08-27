@@ -9,12 +9,25 @@ module.exports = class ExtensionCommander{
         let editor = vscode.window.activeTextEditor;
         if(!this.manager.doesDocumentHasPreview(editor.document)){
             let text = 'Open CSL citations and bibliography preview using citables from: '
-            let options = ['Standard documents', 'DOI'];
+            let options = ['Standard documents', 'DOI', 'Select CSL JSON file'];
             let pick = vscode.window.showQuickPick(options,{placeHolder: text});
             pick.then(input => {
                 if(input != undefined){
                     if (input == 'Standard documents'){
-                        this.openCslPreviewFromJson();
+                        this.openCslPreviewFromJson(null);
+                    }else if('Select CSL JSON file'){
+                        let path = vscode.window.showOpenDialog({
+                            canSelectFiles: true,
+                            canSelectFolders: false,
+                            canSelectMany: false,
+                            filters: {"CSL JSON": ['json']
+                        },
+                            openLabel: 'Open',
+                            title: "Select CSL JSON file"
+                        })
+                        path.then(input =>{
+                            this.openCslPreviewFromJson(input);
+                        })
                     }else if(input == 'DOI'){
                         this.openCslPreviewFromIdentifier();
                     }
@@ -25,9 +38,16 @@ module.exports = class ExtensionCommander{
             controller.panel.view.reveal();
         }
     }
-    openCslPreviewFromJson(){
-        let path = '/src/resources/example_items.json';
-        let citables = utils.getCitablesFromJson(this.manager.extensionPath, path);
+    openCslPreviewFromJson(input){
+        let path = '';
+        let citables = null;
+        if(input == null){
+            path = this.manager.extensionPath + '/src/resources/example_items.json';
+            citables = utils.getCitablesFromJson(path);
+        }else{
+            path = input[0].path.slice(1)
+            citables = utils.getCitablesFromJson(path);     
+        }
         this.manager.createController(citables);
     }
     openCslPreviewFromIdentifier(){
