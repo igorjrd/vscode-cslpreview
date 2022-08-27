@@ -7,12 +7,13 @@ module.exports = class PreviewController{
         this.manager = manager;
         this.editor = textEditor,
         this.engine = new CSLEngine(this.manager.extensionPath);
-        this.panel = new PreviewPanel();
+        this.panel = new PreviewPanel(this);
         //callbacks
         vscode.workspace.onDidCloseTextDocument((textDocument) => {
             if (textDocument === this.editor.document){
                 this.panel.view.dispose();
             }
+            this.manager.refreshLocaleBar();
         })
         this.panel.view.onDidDispose(()=>{
             this.engine = null;
@@ -29,6 +30,7 @@ module.exports = class PreviewController{
         let style = this.editor.document.getText().toString();
         let bib = this.engine.buildPreviewContent(style);
         this.panel.updateContentHtml(bib);
+        this.manager.refreshLocaleBar();
     }
     onDidChangeActiveEditor(textEditor){
         if(textEditor != undefined){
@@ -41,5 +43,9 @@ module.exports = class PreviewController{
         }else{
             vscode.commands.executeCommand('setContext', 'cslSourceActive', false);
         }
+        this.manager.refreshLocaleBar();
+    }
+   onDidChangeActiveWebview(){
+        this.manager.refreshLocaleBar();
     }
 }

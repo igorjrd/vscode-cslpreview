@@ -1,5 +1,6 @@
 const vscode = require('vscode');
 const utils = require('./utils');
+const locales = require('./resources/locales/locales.json');
 
 module.exports = class ExtensionCommander{
     constructor(manager){
@@ -54,5 +55,17 @@ module.exports = class ExtensionCommander{
             controller = this.manager.getControllerFromActiveWebview();
         }
         controller.refreshPreview();
+    }
+    chooseLocale(){
+        let active_controler = this.manager.getActiveController();
+        let codes = Object.keys(locales['language-names']);
+        let text = "Choose language RFC 5646 tag of desired locale";
+        let pick = vscode.window.showQuickPick(codes, {placeHolder:text});
+        pick.then(input =>{
+            if (input != undefined){
+                active_controler.engine.forcedLang = input;
+                active_controler.refreshPreview();
+            }
+        })
     }
 }

@@ -54,6 +54,10 @@
 					"light": "./media/view-source-inv.svg",
 					"dark": "./media/view-source.svg"
 				}
+			},
+			{
+				"command": "cslPreview.chooseLocale",
+				"title": "CSL Preview: Choose Locale"
 			}
 		],
 		"menus": {
@@ -88,6 +92,11 @@
 				{
 					"command": "cslPreview.refreshCslPreview",
 					"when": "CSLPreviewActive || cslSourceActive",
+					"group": "navigation"
+				},
+				{
+					"command": "cslPreview.chooseLocale",
+					"title": "CSL Preview: Choose Locale",
 					"group": "navigation"
 				}
 			]
