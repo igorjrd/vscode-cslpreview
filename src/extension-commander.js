@@ -1,5 +1,6 @@
 const vscode = require('vscode');
 const utils = require('./utils');
+const dict = require('./nls')
 
 module.exports = class ExtensionCommander{
     constructor(manager){
@@ -8,14 +9,14 @@ module.exports = class ExtensionCommander{
     showCslPreview(){
         let editor = vscode.window.activeTextEditor;
         if(!this.manager.doesDocumentHasPreview(editor.document)){
-            let text = 'Open CSL citations and bibliography preview using citables from: '
-            let options = ['Standard documents', 'DOI'];
+            let text = dict['askCitablesSourceText'];
+            let options = Object.values(dict.citablesSrcOpts);
             let pick = vscode.window.showQuickPick(options,{placeHolder: text});
             pick.then(input => {
                 if(input != undefined){
-                    if (input == 'Standard documents'){
+                    if (input == dict.citablesSrcOpts.stdDocs){
                         this.openCslPreviewFromJson();
-                    }else if(input == 'DOI'){
+                    }else if(input == dict.citablesSrcOpts.doi){
                         this.openCslPreviewFromIdentifier();
                     }
                 }

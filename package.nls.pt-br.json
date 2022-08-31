@@ -1,0 +1,14 @@
+{
+    "products.installingModule": "Instalando {0}",
+    "cslPreview.showCslPreview.title": "CSL Preview: Mostrar previsualização do estilo",
+    "cslPreview.refreshCslPreview.title": "CSL Preview: Atualizar previsualização do estilo",
+    "cslPreview.showPreviewSource.title": "CSL Preview: mostrar código-fonte",
+    "askCitablesSourceText": "Visualizar prévia das citações e bibliografia usando citáveis de: ",
+    "citablesSrcOpts": {
+        "stdDocs":"Documentos padrão",
+        "doi": "DOI"
+    },
+    "common.Bibliography": "Bibliografia",
+    "common.indCitations": "Citações individuais",
+    "common.uniqCitation": "Citação única"
+}
