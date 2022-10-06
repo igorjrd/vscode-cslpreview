@@ -1,5 +1,7 @@
 const vscode = require('vscode');
 const utils = require('./utils');
+const locales = require('./resources/locales/locales.json');
+const dict = require('./nls')
 
 module.exports = class ExtensionCommander{
     constructor(manager){
@@ -8,14 +10,14 @@ module.exports = class ExtensionCommander{
     showCslPreview(){
         let editor = vscode.window.activeTextEditor;
         if(!this.manager.doesDocumentHasPreview(editor.document)){
-            let text = 'Open CSL citations and bibliography preview using citables from: '
-            let options = ['Standard documents', 'DOI', 'Select CSL JSON file'];
+            let text = dict['askCitablesSourceText']
+            let options = Object.values(dict.citablesSrcOpts);
             let pick = vscode.window.showQuickPick(options,{placeHolder: text});
             pick.then(input => {
                 if(input != undefined){
-                    if (input == 'Standard documents'){
-                        this.openCslPreviewFromJson(null);
-                    }else if('Select CSL JSON file'){
+                    if (input == dict.citablesSrcOpts.stdDocs){
+                        this.openCslPreviewFromJson();
+                    }else if(input == dict.citablesSrcOpts.selCslJson){
                         let path = vscode.window.showOpenDialog({
                             canSelectFiles: true,
                             canSelectFolders: false,
@@ -28,7 +30,7 @@ module.exports = class ExtensionCommander{
                         path.then(input =>{
                             this.openCslPreviewFromJson(input);
                         })
-                    }else if(input == 'DOI'){
+                    }else if(input == dict.citablesSrcOpts.doi){
                         this.openCslPreviewFromIdentifier();
                     }
                 }
@@ -74,5 +76,17 @@ module.exports = class ExtensionCommander{
             controller = this.manager.getControllerFromActiveWebview();
         }
         controller.refreshPreview();
+    }
+    chooseLocale(){
+        let active_controler = this.manager.getActiveController();
+        let codes = Object.keys(locales['language-names']);
+        let text = dict['localeSelectDialog'];
+        let pick = vscode.window.showQuickPick(codes, {placeHolder:text});
+        pick.then(input =>{
+            if (input != undefined){
+                active_controler.engine.forcedLang = input;
+                active_controler.refreshPreview();
+            }
+        })
     }
 }

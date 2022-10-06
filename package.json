@@ -33,7 +33,7 @@
 		"commands": [
 			{
 				"command": "cslPreview.showCslPreview",
-				"title": "CSL Preview: Show CSL preview",
+				"title": "%cslPreview.showCslPreview.title%",
 				"icon": {
 					"light": "./media/show-preview-inv.svg",
 					"dark": "./media/show-preview.svg"
@@ -41,7 +41,7 @@
 			},
 			{
 				"command": "cslPreview.refreshCslPreview",
-				"title": "CSL Preview: Refresh CSL Preview",
+				"title": "%cslPreview.refreshCslPreview.title%",
 				"icon": {
 					"light": "./media/refresh-preview-inv.svg",
 					"dark": "./media/refresh-preview.svg"
@@ -49,11 +49,15 @@
 			},
 			{
 				"command": "cslPreview.showPreviewSource",
-				"title": "CSL Preview: Show source",
+				"title": "%cslPreview.showPreviewSource.title%",
 				"icon": {
 					"light": "./media/view-source-inv.svg",
 					"dark": "./media/view-source.svg"
 				}
+			},
+			{
+				"command": "cslPreview.chooseLocale",
+				"title": "%cslPreview.chooseLocale.title%"
 			}
 		],
 		"menus": {
@@ -88,6 +92,11 @@
 				{
 					"command": "cslPreview.refreshCslPreview",
 					"when": "CSLPreviewActive || cslSourceActive",
+					"group": "navigation"
+				},
+				{
+					"command": "cslPreview.chooseLocale",
+					"title": "%cslPreview.chooseLocale.title%",
 					"group": "navigation"
 				}
 			]

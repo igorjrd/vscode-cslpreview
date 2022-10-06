@@ -1,10 +1,11 @@
 const vscode = require('vscode');
 
 module.exports = class PreviewPanel{
-    constructor(){
+    constructor(controller){
         let fileName = vscode.window.activeTextEditor.document.fileName.split('/');
         let viewName = 'Preview ' + fileName[fileName.length - 1];
         let column = vscode.window.activeTextEditor.viewColumn + 1;
+        this.controller = controller;
         this.view = vscode.window.createWebviewPanel(
             'CSLPreview',
             viewName,
@@ -13,6 +14,7 @@ module.exports = class PreviewPanel{
         )
         this.view.onDidChangeViewState(({webviewPanel}) => {
             vscode.commands.executeCommand('setContext', 'CSLPreviewActive', webviewPanel.active);
+            this.controller.onDidChangeActiveWebview();
         })
         vscode.commands.executeCommand('setContext', 'CSLPreviewActive', true);
     }
