@@ -9,6 +9,8 @@ module.exports = class CSLEngine{
         this.citeprocSys = new CiteprocSys(this);
         this.citables = null;
         this.citablesIds = null;
+        this.lang = null;
+        this.forcedLang = null;
     }
     updateCitables(citables){
         this.citables = citables;
@@ -21,7 +23,7 @@ module.exports = class CSLEngine{
         return errors
     }
     buildProcessor(style){
-        this.proc = new CSL.Engine(this.citeprocSys, style);
+        this.proc = new CSL.Engine(this.citeprocSys, style, this.forcedLang, this.forcedLang);
         this.proc.updateItems(this.citablesIds);
     }
     buildPreviewContent(style){
@@ -55,6 +57,7 @@ class CiteprocSys{
         this.engine = engine;
     }
     retrieveLocale(lang){
+        this.engine.lang = lang;
         let path = this.engine.extensionPath + '/src/resources/locales/';
         let file = 'locales-' + lang + '.xml';
         return fs.readFileSync(path + file).toString('utf-8');

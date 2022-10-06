@@ -3,6 +3,7 @@
     "cslPreview.showCslPreview.title": "CSL Preview: Mostrar previsualização do estilo",
     "cslPreview.refreshCslPreview.title": "CSL Preview: Atualizar previsualização do estilo",
     "cslPreview.showPreviewSource.title": "CSL Preview: mostrar código-fonte",
+    "cslPreview.chooseLocale.title": "CSL Preview: Escolher idioma da previsualização",
     "askCitablesSourceText": "Visualizar prévia das citações e bibliografia usando citáveis de: ",
     "citablesSrcOpts": {
         "stdDocs":"Documentos padrão",
@@ -10,5 +11,6 @@
     },
     "common.Bibliography": "Bibliografia",
     "common.indCitations": "Citações individuais",
-    "common.uniqCitation": "Citação única"
+    "common.uniqCitation": "Citação única",
+    "localeSelectDialog": "Escolher tag RFC 5646 do idioma desejado"
 }
