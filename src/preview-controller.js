@@ -20,6 +20,7 @@ module.exports = class PreviewController{
             this.editor = null;
             this.manager.disposeController(this);
             this.onDidChangeActiveEditor(vscode.window.activeTextEditor);
+            vscode.commands.executeCommand('setContext', 'CSLPreviewActive', false);
         })
         vscode.window.onDidChangeActiveTextEditor((textEditor) => {
             this.onDidChangeActiveEditor(textEditor);
