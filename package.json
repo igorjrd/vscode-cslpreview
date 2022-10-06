@@ -57,7 +57,7 @@
 			},
 			{
 				"command": "cslPreview.chooseLocale",
-				"title": "CSL Preview: Choose Locale"
+				"title": "%cslPreview.chooseLocale.title%"
 			}
 		],
 		"menus": {
@@ -96,7 +96,7 @@
 				},
 				{
 					"command": "cslPreview.chooseLocale",
-					"title": "CSL Preview: Choose Locale",
+					"title": "%cslPreview.chooseLocale.title%",
 					"group": "navigation"
 				}
 			]
