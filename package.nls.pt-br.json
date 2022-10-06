@@ -3,7 +3,7 @@
     "cslPreview.showCslPreview.title": "CSL Preview: Mostrar previsualização do estilo",
     "cslPreview.refreshCslPreview.title": "CSL Preview: Atualizar previsualização do estilo",
     "cslPreview.showPreviewSource.title": "CSL Preview: mostrar código-fonte",
-    "cslPreview.chooseLocale.title": "CSL Preview: Escolher idioma",
+    "cslPreview.chooseLocale.title": "CSL Preview: Escolher idioma da previsualização",
     "askCitablesSourceText": "Visualizar prévia das citações e bibliografia usando citáveis de: ",
     "citablesSrcOpts": {
         "stdDocs":"Documentos padrão",

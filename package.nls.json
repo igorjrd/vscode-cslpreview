@@ -3,7 +3,7 @@
     "cslPreview.showCslPreview.title": "CSL Preview: Show CSL preview",
     "cslPreview.refreshCslPreview.title": "CSL Preview: Refresh Csl Preview",
     "cslPreview.showPreviewSource.title": "CSL Preview: Show source",
-    "cslPreview.chooseLocale.title": "CSL Preview: Choose Locale",
+    "cslPreview.chooseLocale.title": "CSL Preview: Choose preview Locale",
     "askCitablesSourceText": "Open CSL citations and bibliography preview using citables from: ",
     "citablesSrcOpts": {
         "stdDocs":"Standard documents",
