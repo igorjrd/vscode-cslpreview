@@ -1,5 +1,6 @@
 const CSL = require('citeproc');
 const fs = require('fs');
+const dict = require('./nls');
 
 module.exports = class CSLEngine{
     constructor(extensionPath){
@@ -67,11 +68,11 @@ class CiteprocSys{
 }
 
 function formatHtmlPreview(individualCitations, uniqueCitation, bibliography){
-    let html = '<h3>Individual citations</h3><hr>';
+    let html = `<h3>${dict['common.indCitations']}</h3><hr>`;
     html += '<p>' + individualCitations.join('<br>') + '</p>';
-    html += '<h3>Unique citation</h3><hr>';
+    html += `<h3>${dict['common.uniqCitation']}</h3><hr>`;
     html += '<p>' + uniqueCitation[1][0][1] + '</p>';
-    html += '<h3>Bibliography</h3><hr>';
+    html += `<h3>${dict['common.Bibliography']}</h3><hr>`;
     html += bibliography;
     return html
 }

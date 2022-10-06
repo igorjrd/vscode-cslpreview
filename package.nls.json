@@ -1,0 +1,14 @@
+{
+    "products.installingModule": "Installing {0}",
+    "cslPreview.showCslPreview.title": "CSL Preview: Show CSL preview",
+    "cslPreview.refreshCslPreview.title": "CSL Preview: Refresh Csl Preview",
+    "cslPreview.showPreviewSource.title": "CSL Preview: Show source",
+    "askCitablesSourceText": "Open CSL citations and bibliography preview using citables from: ",
+    "citablesSrcOpts": {
+        "stdDocs":"Standard documents",
+        "doi": "DOI"
+    },
+    "common.Bibliography": "Bibliography",
+    "common.indCitations": "Individual citations",
+    "common.uniqCitation": "Unique citation"
+}
