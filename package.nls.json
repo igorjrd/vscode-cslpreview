@@ -7,7 +7,8 @@
     "askCitablesSourceText": "Open CSL citations and bibliography preview using citables from: ",
     "citablesSrcOpts": {
         "stdDocs":"Standard documents",
-        "doi": "DOI"
+        "doi": "DOI",
+        "selCslJson": "Select CSL JSON file"
     },
     "common.Bibliography": "Bibliography",
     "common.indCitations": "Individual citations",

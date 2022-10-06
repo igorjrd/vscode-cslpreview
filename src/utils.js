@@ -21,8 +21,8 @@ function getCitablesFromIdentifier(identifier){
     }
 }
 
-function getCitablesFromJson(extensionPath, jsonPath){
-    let str = fs.readFileSync(extensionPath + jsonPath).toString('utf-8')
+function getCitablesFromJson(jsonPath){
+    let str = fs.readFileSync(jsonPath).toString('utf-8');
     let jsonCitables = JSON.parse(str);
     let citables = {};
     for(let i=0; i < jsonCitables.length; i++){
