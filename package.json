@@ -60,6 +60,21 @@
 				"title": "%cslPreview.chooseLocale.title%"
 			}
 		],
+		"configuration":{
+			"title": "CSL Preview",
+			"properties": {
+				"cslPreview.defaultCitablesFilePath": {
+					"type": "string",
+					"default": "",
+					"description": "%cslPreview.defaultCitablesFilePath.title%"
+				},
+				"cslPreview.defaultLocale": {
+					"type": "string",
+					"default": "",
+					"description": "%cslPreview.defaultLocale%"
+				}
+			}
+		},
 		"menus": {
 			"editor/title": [
 				{
