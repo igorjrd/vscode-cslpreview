@@ -2,7 +2,7 @@
 	"name": "cslpreview",
 	"displayName": "CSL Preview",
 	"description": "Previews for Citation Style Language bibliographic data structuring codes",
-	"version": "0.1.0",
+	"version": "0.2.0",
 	"publisher": "igorjrd",
 	"engines": {
 		"vscode": "^1.41.0"
@@ -33,7 +33,7 @@
 		"commands": [
 			{
 				"command": "cslPreview.showCslPreview",
-				"title": "CSL Preview: Show CSL preview",
+				"title": "%cslPreview.showCslPreview.title%",
 				"icon": {
 					"light": "./media/show-preview-inv.svg",
 					"dark": "./media/show-preview.svg"
@@ -41,7 +41,7 @@
 			},
 			{
 				"command": "cslPreview.refreshCslPreview",
-				"title": "CSL Preview: Refresh CSL Preview",
+				"title": "%cslPreview.refreshCslPreview.title%",
 				"icon": {
 					"light": "./media/refresh-preview-inv.svg",
 					"dark": "./media/refresh-preview.svg"
@@ -49,13 +49,32 @@
 			},
 			{
 				"command": "cslPreview.showPreviewSource",
-				"title": "CSL Preview: Show source",
+				"title": "%cslPreview.showPreviewSource.title%",
 				"icon": {
 					"light": "./media/view-source-inv.svg",
 					"dark": "./media/view-source.svg"
 				}
+			},
+			{
+				"command": "cslPreview.chooseLocale",
+				"title": "%cslPreview.chooseLocale.title%"
 			}
 		],
+		"configuration":{
+			"title": "CSL Preview",
+			"properties": {
+				"cslPreview.defaultCitablesFilePath": {
+					"type": "string",
+					"default": "",
+					"description": "%cslPreview.defaultCitablesFilePath.title%"
+				},
+				"cslPreview.defaultLocale": {
+					"type": "string",
+					"default": "",
+					"description": "%cslPreview.defaultLocale%"
+				}
+			}
+		},
 		"menus": {
 			"editor/title": [
 				{
@@ -88,6 +107,11 @@
 				{
 					"command": "cslPreview.refreshCslPreview",
 					"when": "CSLPreviewActive || cslSourceActive",
+					"group": "navigation"
+				},
+				{
+					"command": "cslPreview.chooseLocale",
+					"title": "%cslPreview.chooseLocale.title%",
 					"group": "navigation"
 				}
 			]

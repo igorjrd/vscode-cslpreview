@@ -1,0 +1,21 @@
+{
+    "products.installingModule": "Instalando {0}",
+    "cslPreview.showCslPreview.title": "CSL Preview: Mostrar previsualização do estilo",
+    "cslPreview.refreshCslPreview.title": "CSL Preview: Atualizar previsualização do estilo",
+    "cslPreview.showPreviewSource.title": "CSL Preview: mostrar código-fonte",
+    "cslPreview.chooseLocale.title": "CSL Preview: Escolher idioma da previsualização",
+    "cslPreview.defaultCitablesFilePath.title": "Caminho para um arquivo JSON com citáveis que será padrão quando selecionada a opção Documentos Padrão",
+    "cslPreview.defaultLocale": "Idioma para ser selecionado como padrão nas janelas de previsualização (ex. pt-BR)",
+    "askCitablesSourceText": "Visualizar prévia das citações e bibliografia usando citáveis de: ",
+    "citablesSrcOpts": {
+        "stdDocs":"Documentos padrão",
+        "doi": "DOI",
+        "selCslJson": "Selecionar arquivo CSL JSON"
+    },
+    "invalidDocsJsonMsg": "Caminho inválido para arquivo JSON com citáveis definido nas configurações",
+    "invalidConfLocaleMsg": "Idioma padrão inválido definido nas configurações",
+    "common.Bibliography": "Bibliografia",
+    "common.indCitations": "Citações individuais",
+    "common.uniqCitation": "Citação única",
+    "localeSelectDialog": "Escolher tag RFC 5646 do idioma desejado"
+}
