@@ -3,6 +3,10 @@ const utils = require('./utils');
 const locales = require('./resources/locales/locales.json');
 const dict = require('./nls')
 
+const conf = () => {
+    return vscode.workspace.getConfiguration('cslPreview');
+}
+
 module.exports = class ExtensionCommander{
     constructor(manager){
         this.manager = manager;
@@ -16,7 +20,18 @@ module.exports = class ExtensionCommander{
             pick.then(input => {
                 if(input != undefined){
                     if (input == dict.citablesSrcOpts.stdDocs){
-                        this.openCslPreviewFromJson();
+                        let path = conf().get('defaultCitablesFilePath');
+                        if(path != ""){
+                            try{
+                                let input = vscode.Uri.file(path);
+                                this.openCslPreviewFromJson(input);
+                            }catch(e){
+                                vscode.window.showInformationMessage(dict.invalidDocsJsonMsg);
+                                this.openCslPreviewFromJson();
+                            }
+                        }else{
+                            this.openCslPreviewFromJson();
+                        }
                     }else if(input == dict.citablesSrcOpts.selCslJson){
                         let path = vscode.window.showOpenDialog({
                             canSelectFiles: true,
@@ -28,7 +43,7 @@ module.exports = class ExtensionCommander{
                             title: "Select CSL JSON file"
                         })
                         path.then(input =>{
-                            this.openCslPreviewFromJson(input);
+                            this.openCslPreviewFromJson(input[0]);
                         })
                     }else if(input == dict.citablesSrcOpts.doi){
                         this.openCslPreviewFromIdentifier();
@@ -47,7 +62,7 @@ module.exports = class ExtensionCommander{
             path = this.manager.extensionPath + '/src/resources/example_items.json';
             citables = utils.getCitablesFromJson(path);
         }else{
-            path = input[0].path.slice(1)
+            path = input.path.slice(1)
             citables = utils.getCitablesFromJson(path);     
         }
         this.manager.createController(citables);

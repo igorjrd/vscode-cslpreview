@@ -1,5 +1,7 @@
 const PreviewController = require('./preview-controller');
 const vscode = require('vscode');
+const locales = require('./resources/locales/locales.json');
+const dict = require('./nls');
 
 module.exports = class PreviewManager{
     constructor(extensionPath, localeBar){
@@ -10,6 +12,14 @@ module.exports = class PreviewManager{
     createController(citables){
         let editor = vscode.window.activeTextEditor;
         let _controller = new PreviewController(this, editor);
+        let lang = vscode.workspace.getConfiguration('cslPreview').get('defaultLocale');
+        if(lang != ''){
+            if(lang in locales['language-names']){
+                _controller.engine.forcedLang = lang;
+            }else{
+                vscode.window.showInformationMessage(dict.invalidConfLocaleMsg);
+            }
+        }
         _controller.engine.updateCitables(citables);
         _controller.refreshPreview();
         this.controllers.push(_controller);
