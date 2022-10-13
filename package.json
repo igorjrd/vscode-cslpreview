@@ -2,7 +2,7 @@
 	"name": "cslpreview",
 	"displayName": "CSL Preview",
 	"description": "Previews for Citation Style Language bibliographic data structuring codes",
-	"version": "0.1.0",
+	"version": "0.2.0",
 	"publisher": "igorjrd",
 	"engines": {
 		"vscode": "^1.41.0"
