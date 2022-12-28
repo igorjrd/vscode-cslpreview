@@ -1,6 +1,7 @@
 const CSL = require('citeproc');
 const fs = require('fs');
 const dict = require('./nls');
+const validate = require('./resources/csl-validator');
 
 module.exports = class CSLEngine{
     constructor(extensionPath){
@@ -17,8 +18,6 @@ module.exports = class CSLEngine{
         this.citablesIds = Object.keys(this.citables);
     }
     validateStyle(style){
-        require('./resources/csl-validator');
-        // @ts-ignore
         let errors = validate(style);
         return errors
     }

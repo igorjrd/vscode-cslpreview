@@ -6,6 +6,7 @@
     "cslPreview.chooseLocale.title": "CSL Preview: Choose preview Locale",
     "cslPreview.defaultCitablesFilePath.title": "Path for a citables JSON file that will be default when choosing Standard Documents option",
     "cslPreview.defaultLocale": "Locale to be selected as default in preview windows (e.g. en-US)",
+    "cslPreview.autoRefreshPreview": "Automatically refresh previews when editing style (can lead to errors upon hard typing)",
     "askCitablesSourceText": "Open CSL citations and bibliography preview using citables from: ",
     "citablesSrcOpts": {
         "stdDocs":"Standard documents",

@@ -8,6 +8,7 @@ module.exports = class PreviewController{
         this.editor = textEditor,
         this.engine = new CSLEngine(this.manager.extensionPath);
         this.panel = new PreviewPanel(this);
+        this.refreshQueue = new RefreshQueue(this);
         //callbacks
         vscode.workspace.onDidCloseTextDocument((textDocument) => {
             if (textDocument === this.editor.document){
@@ -28,10 +29,13 @@ module.exports = class PreviewController{
         })
     }
     refreshPreview(){
+        this.refreshQueue.readyToRefresh = false;
         let style = this.editor.document.getText().toString();
         let bib = this.engine.buildPreviewContent(style);
         this.panel.updateContentHtml(bib);
         this.manager.refreshLocaleBar();
+        this.refreshQueue.lastRefresh = Date.now();
+        this.refreshQueue.readyToRefresh = true;
     }
     onDidChangeActiveEditor(textEditor){
         if(textEditor != undefined){
@@ -46,7 +50,43 @@ module.exports = class PreviewController{
         }
         this.manager.refreshLocaleBar();
     }
-   onDidChangeActiveWebview(){
+    onDidChangeActiveWebview(){
         this.manager.refreshLocaleBar();
+    }
+}
+
+class RefreshQueue{
+    constructor(controller){
+        this.queue = [];
+        this.controller = controller
+        this.lastRequest = 0;
+        this.lastRefresh = 0;
+        this.readyToRefresh = true;
+        this.delay = 500;
+        this.alreadyScheduled = false;
+    }
+    requestRefresh(){
+        this.lastRequest = Date.now();
+        if(this.queue.length < 2){
+            this.queue.unshift(this.lastRequest);
+        } else {
+            this.queue.splice(0,1);
+            this.queue.unshift(this.lastRequest);
+        }
+        if(this.queue.length > 0 && !this.alreadyScheduled){
+            this.alreadyScheduled = true;
+            this.scheduleRefresh(this.delay - (this.queue.slice(-1) - this.lastRefresh));
+        }
+    }
+    scheduleRefresh(timeout){
+        setTimeout(() => {
+            if(this.readyToRefresh){
+                this.controller.refreshPreview();
+                this.queue.pop();
+                this.alreadyScheduled = false;
+            } else {
+                this.scheduleRefresh(this.delay);
+            }
+        }, timeout);
     }
 }
