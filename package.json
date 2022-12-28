@@ -75,7 +75,7 @@
 				},
 				"cslPreview.autoRefreshPreview": {
 					"type": "boolean",
-					"default": "false",
+					"default": "",
 					"description": "%cslPreview.autoRefreshPreview%"
 				}
 			}
