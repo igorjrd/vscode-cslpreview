@@ -36,6 +36,11 @@ There is no know issues at the moment. If you experience trobles when using the 
 
 ## Release Notes
 
+### 0.2.2
+
+* Fixes [issue 12](https://github.com/igorjrd/vscode-cslpreview/issues/12)
+* Update dependencies
+
 ### 0.2.1
 
 New functionality: **Auto refresh preview**

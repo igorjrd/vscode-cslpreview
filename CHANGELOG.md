@@ -1,5 +1,16 @@
 # Change Log
 
+### 0.2.2
+
+* Fixes [issue 12](https://github.com/igorjrd/vscode-cslpreview/issues/12)
+* Update dependencies
+
+### 0.2.1
+
+New functionality: **Auto refresh preview**
+* Updates automatically the preview window during document edition after a short delay (0.5 s)
+* It should be activated on extension settings
+
 ## 0.2.0
 
 New functionality additions:
