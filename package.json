@@ -11,7 +11,12 @@
 		"Other"
 	],
 	"keywords": [
-		"csl","bibliography","citation","academics","citation style language","preview"
+		"csl",
+		"bibliography",
+		"citation",
+		"academics",
+		"citation style language",
+		"preview"
 	],
 	"repository": {
 		"type": "git",
@@ -60,7 +65,7 @@
 				"title": "%cslPreview.chooseLocale.title%"
 			}
 		],
-		"configuration":{
+		"configuration": {
 			"title": "CSL Preview",
 			"properties": {
 				"cslPreview.defaultCitablesFilePath": {
@@ -132,13 +137,13 @@
 		"@types/vscode": "^1.41.0",
 		"eslint": "^6.6.0",
 		"glob": "^7.1.5",
-		"mocha": "^6.2.2",
+		"mocha": "^10.2.0",
 		"typescript": "^3.6.4",
 		"vscode-test": "^1.2.2"
 	},
 	"dependencies": {
 		"ajv": "^6.11.0",
-		"citeproc": "^2.2.30",
+		"citeproc": "^2.4.62",
 		"xmlhttprequest": "^1.8.0"
 	}
 }
