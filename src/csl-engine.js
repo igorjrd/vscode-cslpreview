@@ -29,18 +29,12 @@ module.exports = class CSLEngine{
         try{
             this.buildProcessor(style);
             let individualCitations = [];
-            for(let i=0; i<this.citablesIds.length; i++){
-                let citation= {
-                    properties: {
-                        noteIndex: (i+1)
-                    },
-                    citationItems: [{id: this.citablesIds[i]}]
-                }
-                individualCitations.push(this.proc.appendCitationCluster(citation,[],[])[0][1]);
-            }
             let citationItems =[]
-            for(let i=0;i<this.citablesIds.length;i++) 
+            for(let i=0;i<this.citablesIds.length;i++){
                 citationItems.push({id: this.citablesIds[i]});
+                this.proc.appendCitationCluster({citationItems:[citationItems[i]]},[],[])
+            }
+            for (let i=0;i<this.citablesIds.length;i++) {individualCitations.push(this.proc.appendCitationCluster({citationItems:[citationItems[i]]},[],[])[0][1]);}
             let uniqueCitation = this.proc.processCitationCluster({citationItems},[],[]);
             let bibliography = formatBibliographyHtml(this.proc.makeBibliography());
             let previewContent = formatHtmlPreview(individualCitations, uniqueCitation, bibliography);
