@@ -3,11 +3,25 @@ const vscode = require('vscode');
 const locales = require('./resources/locales/locales.json');
 const dict = require('./nls');
 
+function getConfiguration(configName){
+    return vscode.workspace.getConfiguration("cslPreview").get(configName);
+}
+
 module.exports = class PreviewManager{
     constructor(extensionPath, localeBar){
         this.extensionPath = extensionPath;
         this.controllers = [];
         this.localeBar = localeBar;
+        this.autoPreviewRefreshListener = null;
+        if(getConfiguration("autoRefreshPreview")){
+            this.activateAutoPreviewRefresh();
+        }
+        vscode.workspace.onDidChangeConfiguration(x => {
+            if(x.affectsConfiguration("cslPreview.autoRefreshPreview")){
+                if(getConfiguration("autoRefreshPreview")) this.activateAutoPreviewRefresh();
+                else this.disableAutoPreviewRefresh();
+            }
+        })
     }
     createController(citables){
         let editor = vscode.window.activeTextEditor;
@@ -59,6 +73,21 @@ module.exports = class PreviewManager{
             this.localeBar.bar.show();
         }else{
             this.localeBar.bar.hide();
+        }
+    }
+    activateAutoPreviewRefresh(){  
+        this.autoPreviewRefreshListener = vscode.workspace.onDidChangeTextDocument( e => {
+            if(e.contentChanges.length > 0){
+                let controller = this.getControllerFromDocument(e.document);
+                if (controller != null){
+                    controller.refreshQueue.requestRefresh();
+                }
+            }
+        });
+    }
+    disableAutoPreviewRefresh(){
+        if(this.autoPreviewRefreshListener != null){
+            this.autoPreviewRefreshListener.dispose();
         }
     }
 }

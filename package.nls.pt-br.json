@@ -6,6 +6,7 @@
     "cslPreview.chooseLocale.title": "CSL Preview: Escolher idioma da previsualização",
     "cslPreview.defaultCitablesFilePath.title": "Caminho para um arquivo JSON com citáveis que será padrão quando selecionada a opção Documentos Padrão",
     "cslPreview.defaultLocale": "Idioma para ser selecionado como padrão nas janelas de previsualização (ex. pt-BR)",
+    "cslPreview.autoRefreshPreview": "Atualizar as previsualizações automaticamente durante a edição (pode causar erros quando há uma alta taxa de modificação no documento)",
     "askCitablesSourceText": "Visualizar prévia das citações e bibliografia usando citáveis de: ",
     "citablesSrcOpts": {
         "stdDocs":"Documentos padrão",
