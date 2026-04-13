@@ -62,7 +62,7 @@ module.exports = class ExtensionCommander{
             path = this.manager.extensionPath + '/src/resources/example_items.json';
             citables = utils.getCitablesFromJson(path);
         }else{
-            path = input.path.slice(1)
+            path = input.fsPath;
             citables = utils.getCitablesFromJson(path);     
         }
         this.manager.createController(citables);
