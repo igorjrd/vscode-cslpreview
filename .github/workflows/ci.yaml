@@ -15,16 +15,16 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6.0.2
         with:
           submodules: recursive
       - name: Setup Node.js
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v6.4.0
         with:
           node-version: '25.8.2'
       - name: Install dependencies
         run: npm install
       - name: Run headless test
-        uses: GabrielBB/xvfb-action@v1.0
+        uses: GabrielBB/xvfb-action@v1.7
         with:
           run: npm test
