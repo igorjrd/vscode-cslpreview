@@ -2,10 +2,10 @@
 	"name": "cslpreview",
 	"displayName": "CSL Preview",
 	"description": "Previews for Citation Style Language bibliographic data structuring codes",
-	"version": "0.2.2",
+	"version": "1.0.0",
 	"publisher": "igorjrd",
 	"engines": {
-		"vscode": "^1.41.0"
+		"vscode": "^1.73.0"
 	},
 	"categories": [
 		"Other"
@@ -32,8 +32,9 @@
 	"activationEvents": [
 		"onLanguage:xml"
 	],
-	"main": "./src/extension.js",
+	"main": "./dist/src/extension.js",
 	"icon": "media/cslpreview.png",
+	"l10n": "./l10n",
 	"contributes": {
 		"commands": [
 			{
@@ -122,28 +123,43 @@
 				{
 					"command": "cslPreview.chooseLocale",
 					"title": "%cslPreview.chooseLocale.title%",
+					"when": "CSLPreviewActive || cslSourceActive",
 					"group": "navigation"
 				}
 			]
 		}
 	},
 	"scripts": {
-		"test": "node ./test/runTest.js"
+		"test": "npm run check-types && node esbuild.js && node ./dist/test/runTest.js",
+		"compile": "npm run check-types && node esbuild.js",
+		"check-types": "tsc --noEmit",
+		"watch": "node esbuild.js --watch",
+		"vscode:prepublish": "npm run package",
+		"package": "npm run check-types && node esbuild.js --production"
 	},
 	"devDependencies": {
 		"@types/glob": "^7.1.1",
+		"@types/lodash": "^4.17.24",
 		"@types/mocha": "^5.2.7",
-		"@types/node": "^12.11.7",
-		"@types/vscode": "^1.41.0",
+		"@types/node": "^12.20.55",
+		"@types/sinon": "^21.0.1",
+		"@types/vscode": "^1.73.0",
+		"@vscode/test-cli": "^0.0.10",
+		"@vscode/test-electron": "^2.4.1",
+		"@vscode/vsce": "^3.9.1",
+		"esbuild": "^0.24.2",
 		"eslint": "^6.6.0",
 		"glob": "^7.1.5",
 		"mocha": "^10.2.0",
-		"typescript": "^3.6.4",
+		"sinon": "^21.1.2",
+		"typescript": "^4.5.4",
 		"vscode-test": "^1.2.2"
 	},
 	"dependencies": {
+		"@vscode/l10n": "^0.0.18",
 		"ajv": "^6.11.0",
 		"citeproc": "^2.4.62",
-		"xmlhttprequest": "^1.8.0"
+		"lodash": "^4.18.1",
+		"sync-request": "^6.1.0"
 	}
 }

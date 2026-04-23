@@ -1,0 +1,20 @@
+{
+    "compilerOptions": {
+      "outDir": "./out",
+      "allowJs": true,
+      "target": "es5",
+      "esModuleInterop": true,
+      "noEmit": false,
+      "resolveJsonModule": true
+    },
+    "include": [
+        "./src/**/*",
+        "./resources/**/*",
+        "./libs/csl-validator.js",
+        "./test/**/*"
+    ],
+    "compileOnSave": true,
+    "watchOptions": {
+        "watchDirectory": "useFsEvents"
+    }
+}

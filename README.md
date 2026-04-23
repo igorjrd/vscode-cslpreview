@@ -36,6 +36,11 @@ There is no know issues at the moment. If you experience trobles when using the 
 
 ## Release Notes
 
+### 1.0.0
+
+* Extension source language switched to TypeScript
+* Major code refactoring
+
 ### 0.2.2
 
 * Fixes [issue 12](https://github.com/igorjrd/vscode-cslpreview/issues/12)

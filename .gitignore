@@ -1,4 +1,6 @@
 node_modules/
-jsconfig.json
-.eslintrc.json
-test/
+.vscode-test/
+out/
+dist/
+package-lock.json
+*.vsix
