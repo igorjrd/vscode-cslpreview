@@ -1,5 +1,12 @@
 # Change Log
 
+### 1.0.0
+
+* Extension source language switched to TypeScript
+* Major code refactoring
+* Implemented ESBuild extension bundling
+* Extension tests suite included
+
 ### 0.2.2
 
 * Fixes [issue 12](https://github.com/igorjrd/vscode-cslpreview/issues/12)

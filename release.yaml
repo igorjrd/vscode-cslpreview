@@ -1,0 +1,80 @@
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Tag da release (ex: v1.2.3, v1.2.3-beta.1)'
+        required: true
+        type: string
+
+jobs:
+  release:
+    name: Publish and release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Validate tag input
+        id: release_tag
+        run: |
+          TAG="${{ inputs.tag }}"
+          if ! [[ "$TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.-]+)?$ ]]; then
+            echo "Tag inválida: $TAG"
+            echo "Use formato: vMAJOR.MINOR.PATCH ou vMAJOR.MINOR.PATCH-sufixo"
+            exit 1
+          fi
+
+          git fetch --tags --force
+          if git ls-remote --exit-code --tags origin "refs/tags/$TAG" > /dev/null; then
+            echo "Tag já existe no remoto: $TAG"
+            exit 1
+          fi
+
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+          echo "version=${TAG#v}" >> "$GITHUB_OUTPUT"
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Install dependencies
+        run: npm ci
+      - name: Set package version from input tag
+        run: npm version ${{ steps.release_tag.outputs.version }} --no-git-tag-version
+      - name: Resolve publish arguments
+        id: publish_args
+        run: |
+          VERSION="${{ steps.release_tag.outputs.version }}"
+          ARGS="publish -p $PUBLISHER_TOKEN"
+
+          if [[ "$VERSION" == *-* ]]; then
+            ARGS="$ARGS --pre-release"
+          fi
+
+          echo "args=$ARGS" >> "$GITHUB_OUTPUT"
+      - name: Publish extension
+        uses: JCofman/vscodeaction@master
+        env:
+          PUBLISHER_TOKEN: ${{ secrets.PUBLISHER_TOKEN }}
+        with:
+          args: ${{ steps.publish_args.outputs.args }}
+      - name: Configure Git user
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+      - name: Commit release version
+        run: |
+          git add package.json package-lock.json 2>/dev/null || git add package.json
+          git commit -m "chore(release): ${{ steps.release_tag.outputs.tag }} [skip ci]"
+      - name: Create and push tag
+        run: |
+          git tag "${{ steps.release_tag.outputs.tag }}"
+          git push origin HEAD
+          git push origin "${{ steps.release_tag.outputs.tag }}"
+      - name: Create GitHub release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.release_tag.outputs.tag }}
+          generate_release_notes: true

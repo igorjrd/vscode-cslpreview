@@ -1,0 +1,16 @@
+{
+    "Open CSL citations and bibliography preview using citables from: ": "Visualizar prévia das citações e bibliografia usando citáveis de: ",
+    "Standard documents": "Documentos padrão",
+    "DOI": "DOI",
+    "Select CSL JSON file": "Selecionar arquivo CSL JSON",
+    "Invalid path for citables JSON file set in configuration": "Caminho inválido para arquivo JSON com citáveis definido nas configurações",
+    "Invalid default locale set in configuration": "Idioma padrão inválido definido nas configurações",
+    "Bibliography": "Bibliografia",
+    "Individual citations": "Citações individuais",
+    "Unique citation": "Citação única",
+    "Choose language RFC 5646 tag of desired locale": "Escolher tag RFC 5646 do idioma desejado",
+    "Open": "Abrir",
+    "CSL Preview: Choose preview Locale": "CSL Preview: Escolher idioma da previsualização",
+    "No citables were provided by the selected source. No preview will be displayed": "Nenhum documento citável foi fornecido pela fonte selecionada. Nenhuma pré-visualização será exibida",
+    "Specified DOI was not found": "DOI especificado não foi encontrado"
+}

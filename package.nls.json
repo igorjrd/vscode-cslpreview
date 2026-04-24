@@ -6,17 +6,5 @@
     "cslPreview.chooseLocale.title": "CSL Preview: Choose preview Locale",
     "cslPreview.defaultCitablesFilePath.title": "Path for a citables JSON file that will be default when choosing Standard Documents option",
     "cslPreview.defaultLocale": "Locale to be selected as default in preview windows (e.g. en-US)",
-    "cslPreview.autoRefreshPreview": "Automatically refresh previews when editing style (can lead to errors upon hard typing)",
-    "askCitablesSourceText": "Open CSL citations and bibliography preview using citables from: ",
-    "citablesSrcOpts": {
-        "stdDocs":"Standard documents",
-        "doi": "DOI",
-        "selCslJson": "Select CSL JSON file"
-    },
-    "invalidDocsJsonMsg": "Invalid path for citables JSON file set in configuration",
-    "invalidConfLocaleMsg": "Invalid default locale set in configuration",
-    "common.Bibliography": "Bibliography",
-    "common.indCitations": "Individual citations",
-    "common.uniqCitation": "Unique citation",
-    "localeSelectDialog": "Choose language RFC 5646 tag of desired locale"
+    "cslPreview.autoRefreshPreview": "Automatically refresh previews when editing style (can lead to errors upon hard typing)"
 }

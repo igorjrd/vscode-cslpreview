@@ -1,0 +1,141 @@
+on:
+  workflow_dispatch:
+    inputs:
+      bump:
+        description: 'Tipo de bump de versão'
+        required: true
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+      suffix:
+        description: 'Sufixo de pré-lançamento: alpha, beta ou rc (opcionalmente com índice, ex.: rc-1)'
+        required: false
+        type: string
+        default: ''
+
+jobs:
+  release:
+    name: Publish and release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Generate GitHub App token
+        id: generate-token
+        uses: actions/create-github-app-token@v3.1.1
+        with:
+          app-id: ${{ vars.CI_APP_ID }}
+          private-key: ${{ secrets.CI_APP_PRIVATE_KEY }}
+      - name: Checkout
+        uses: actions/checkout@v6.0.2
+        with:
+          token: ${{ steps.generate-token.outputs.token }}
+          fetch-depth: 0
+      - name: Validate release channel and branch
+        run: |
+          BRANCH="${GITHUB_REF_NAME}"
+          SUFFIX="${{ inputs.suffix }}"
+
+          if [ -z "$SUFFIX" ]; then
+            if [ "$BRANCH" != "main" ]; then
+              echo "Release estável (sem sufixo) só pode ser executado na branch main."
+              exit 1
+            fi
+            exit 0
+          fi
+
+          if [[ ! "$SUFFIX" =~ ^(alpha|beta|rc)(-[0-9]+)?$ ]]; then
+            echo "Sufixo inválido: '$SUFFIX'. Valores permitidos: alpha, beta, rc (com índice opcional, ex.: rc-1) ou vazio."
+            exit 1
+          fi
+
+          CHANNEL="${SUFFIX%%-*}"
+
+          if [ "$CHANNEL" = "beta" ] || [ "$CHANNEL" = "rc" ]; then
+            if [ "$BRANCH" != "development" ]; then
+              echo "Pré-release ($SUFFIX) só pode ser executado na branch development."
+              exit 1
+            fi
+            exit 0
+          fi
+
+          if [ "$CHANNEL" = "alpha" ]; then
+            if [ "$BRANCH" = "main" ] || [ "$BRANCH" = "development" ]; then
+              echo "Pré-release ($SUFFIX) não pode ser executado nas branches main ou development."
+              exit 1
+            fi
+            exit 0
+          fi
+      - name: Calculate new version
+        id: release_tag
+        run: |
+          CURRENT=$(jq -r '.version' package.json | sed 's/-.*//')
+          IFS='.' read -r MAJOR MINOR PATCH <<< "$CURRENT"
+
+          case "${{ inputs.bump }}" in
+            major) MAJOR=$((MAJOR + 1)); MINOR=0; PATCH=0 ;;
+            minor) MINOR=$((MINOR + 1)); PATCH=0 ;;
+            patch) PATCH=$((PATCH + 1)) ;;
+          esac
+
+          VERSION="$MAJOR.$MINOR.$PATCH"
+          SUFFIX="${{ inputs.suffix }}"
+          if [ -n "$SUFFIX" ]; then
+            VERSION="$VERSION-$SUFFIX"
+          fi
+
+          TAG="$VERSION"
+
+          git fetch --tags --force
+          if git ls-remote --exit-code --tags origin "refs/tags/$TAG" > /dev/null 2>&1; then
+            echo "Tag já existe no remoto: $TAG"
+            exit 1
+          fi
+
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+      - name: Setup Node.js
+        uses: actions/setup-node@v6.4.0
+        with:
+          node-version: '25.8.2'
+      - name: Install dependencies
+        run: npm ci
+      - name: Set package version from input tag
+        run: npm version ${{ steps.release_tag.outputs.version }} --no-git-tag-version
+      - name: Resolve publish arguments
+        id: publish_args
+        run: |
+          ARGS="publish -p $VSCE_TOKEN"
+
+          if [ -n "${{ inputs.suffix }}" ]; then
+            ARGS="$ARGS --pre-release"
+          fi
+
+          echo "args=$ARGS" >> "$GITHUB_OUTPUT"
+      - name: Publish extension
+        uses: JCofman/vscodeaction@v3.0.0
+        env:
+          VSCE_TOKEN: ${{ secrets.VSCE_TOKEN }}
+        with:
+          args: ${{ steps.publish_args.outputs.args }}
+      - name: Configure Git user
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+      - name: Commit release version
+        run: |
+          git add package.json package-lock.json 2>/dev/null || git add package.json
+          git commit -m "chore(release): ${{ steps.release_tag.outputs.tag }} [skip ci]"
+      - name: Create and push tag
+        run: |
+          git tag "${{ steps.release_tag.outputs.tag }}"
+          git push origin HEAD
+          git push origin "${{ steps.release_tag.outputs.tag }}"
+      - name: Create GitHub release
+        uses: softprops/action-gh-release@v3.0.0
+        with:
+          tag_name: ${{ steps.release_tag.outputs.tag }}
+          generate_release_notes: true
+          prerelease: ${{ inputs.suffix != '' }}
