@@ -1,4 +1,3 @@
-import request from "sync-request";
 import DoiNotFoundError from '../../error/doi-not-found-error';
 
 export interface CrossRefResponse {
@@ -17,12 +16,16 @@ export default class CrossRefClient {
   private static CROSS_REF_API_URL = "http://api.crossref.org/works";
 
 
-  static requestCrossRef(doi: string): CrossRefResponse {
-    let response = request("GET", `${this.CROSS_REF_API_URL}/${doi}`);
+  static async requestCrossRef(doi: string): Promise<CrossRefResponse> {
 
-    if (response.statusCode == 200)
-      return JSON.parse(response.body.toString()) as CrossRefResponse;
-    if (response.statusCode == 404)
+    let response = await fetch(
+      `${this.CROSS_REF_API_URL}/${doi}`,
+      { method: 'GET' }
+    );
+
+    if (response.status === 200)
+      return await response.json() as CrossRefResponse;
+    if (response.status === 404)
       throw new DoiNotFoundError();
   }
 }

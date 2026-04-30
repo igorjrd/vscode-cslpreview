@@ -19,7 +19,7 @@ async function main() {
     sourcemap: !production,
     sourcesContent: false,
     platform: 'node',
-    external: ['vscode', 'sync-request'],
+    external: ['vscode'],
     logLevel: 'silent',
     plugins: [
       esbuildProblemMatcherPlugin
