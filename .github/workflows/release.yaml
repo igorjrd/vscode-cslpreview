@@ -93,10 +93,14 @@ jobs:
           fi
 
           echo "args=$ARGS" >> "$GITHUB_OUTPUT"
-      - name: Publish extension
+      - name: Publish extension to VSCode Marketplace
         env:
           VSCE_TOKEN: ${{ secrets.VSCE_TOKEN }}
         run: npx vsce publish -p $VSCE_TOKEN ${{ steps.publish_args.outputs.args }}
+      - name: Publish extension to OpenVSX Registry
+        env:
+          OVSX_TOKEN: ${{ secrets.OVSX_TOKEN }}
+        run: npx ovsx publish -p $OVSX_TOKEN ${{ steps.publish_args.outputs.args }} cslpreview-${{ steps.release_tag.outputs.version }}.vsix
       - name: Configure Git user
         run: |
           git config user.name "github-actions[bot]"
