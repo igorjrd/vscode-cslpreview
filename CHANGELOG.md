@@ -6,6 +6,7 @@
 * Major code refactoring
 * Implemented ESBuild extension bundling
 * Extension tests suite included
+* Extension published to OpenVSX Registry
 
 ### 0.2.2
 
