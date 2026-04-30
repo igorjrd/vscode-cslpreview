@@ -10,8 +10,8 @@ export default class DoiService {
     this.validateItem = ajvInstance.compile(require('../../resources/csl-schema.json'));
   }
 
-  static retrieveCitableWithDoi(doi: string): Citable {
-    let response: CrossRefResponse = CrossRefClient.requestCrossRef(doi);
+  static async retrieveCitableWithDoi(doi: string): Promise<Citable> {
+    let response: CrossRefResponse = await CrossRefClient.requestCrossRef(doi);
     return this.mapCrossRefJson2Citable(response);
   }
 
