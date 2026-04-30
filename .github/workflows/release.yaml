@@ -83,8 +83,8 @@ jobs:
         run: npm ci
       - name: Set package version from input tag
         run: npm version ${{ steps.release_tag.outputs.version }} --no-git-tag-version
-      - name: Resolve publish arguments
-        id: publish_args
+      - name: Resolve package arguments
+        id: package_args
         run: |
           ARGS=""
 
@@ -93,14 +93,17 @@ jobs:
           fi
 
           echo "args=$ARGS" >> "$GITHUB_OUTPUT"
+          echo "vsix_filename=cslpreview-${{ steps.release_tag.outputs.version }}.vsix" >> "$GITHUB_OUTPUT"
+      - name: Package extension
+        run: npx vsce package -o ${{ steps.package_args.outputs.vsix_filename }} ${{ steps.package_args.outputs.args }}
       - name: Publish extension to VSCode Marketplace
         env:
           VSCE_TOKEN: ${{ secrets.VSCE_TOKEN }}
-        run: npx vsce publish -p $VSCE_TOKEN ${{ steps.publish_args.outputs.args }}
+        run: npx vsce publish -p $VSCE_TOKEN -i ${{ steps.package_args.outputs.vsix_filename }}
       - name: Publish extension to OpenVSX Registry
         env:
           OVSX_TOKEN: ${{ secrets.OVSX_TOKEN }}
-        run: npx ovsx publish -p $OVSX_TOKEN ${{ steps.publish_args.outputs.args }} cslpreview-${{ steps.release_tag.outputs.version }}.vsix
+        run: npx ovsx publish -p $OVSX_TOKEN -i ${{ steps.package_args.outputs.vsix_filename }}
       - name: Configure Git user
         run: |
           git config user.name "github-actions[bot]"
