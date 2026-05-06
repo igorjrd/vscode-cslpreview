@@ -10,7 +10,8 @@ class SupplyDocumentsFromDOItrategy implements CitableSupplyingStategy {
     if (value == null || value == undefined || value.trim() == "")
       return [];
     try {
-      return [DoiService.retrieveCitableWithDoi(value)];
+      let citable = await DoiService.retrieveCitableWithDoi(value);
+      return [citable];
     } catch (e) {
       await vscode.window.showErrorMessage(e.message);
       return [];

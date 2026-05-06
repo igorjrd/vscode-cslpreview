@@ -2,18 +2,18 @@ on:
   workflow_dispatch:
     inputs:
       bump:
-        description: 'Tipo de bump de versão'
+        description: 'Type of version bump'
         required: true
         type: choice
         options:
           - patch
           - minor
           - major
-      suffix:
-        description: 'Sufixo de pré-lançamento: alpha, beta ou rc (opcionalmente com índice, ex.: rc-1)'
-        required: false
-        type: string
-        default: ''
+      prerelease:
+        description: 'Is it a pre-release'
+        required: true
+        type: boolean
+        default: false
 
 jobs:
   release:
@@ -24,7 +24,7 @@ jobs:
     steps:
       - name: Generate GitHub App token
         id: generate-token
-        uses: actions/create-github-app-token@v3.1.1
+        uses: actions/create-github-app-token@v2
         with:
           app-id: ${{ vars.CI_APP_ID }}
           private-key: ${{ secrets.CI_APP_PRIVATE_KEY }}
@@ -33,41 +33,25 @@ jobs:
         with:
           token: ${{ steps.generate-token.outputs.token }}
           fetch-depth: 0
+          submodules: recursive
       - name: Validate release channel and branch
         run: |
           BRANCH="${GITHUB_REF_NAME}"
-          SUFFIX="${{ inputs.suffix }}"
+          PRERELEASE="${{ inputs.prerelease }}"
 
-          if [ -z "$SUFFIX" ]; then
+          if [ "$PRERELEASE" = "false" ]; then
             if [ "$BRANCH" != "main" ]; then
-              echo "Release estável (sem sufixo) só pode ser executado na branch main."
+              echo "Stable release can only be executed on the main branch."
               exit 1
             fi
             exit 0
           fi
 
-          if [[ ! "$SUFFIX" =~ ^(alpha|beta|rc)(-[0-9]+)?$ ]]; then
-            echo "Sufixo inválido: '$SUFFIX'. Valores permitidos: alpha, beta, rc (com índice opcional, ex.: rc-1) ou vazio."
+          if [ "$BRANCH" = "main" ]; then
+            echo "Pre-release cannot be executed on the main branch."
             exit 1
           fi
-
-          CHANNEL="${SUFFIX%%-*}"
-
-          if [ "$CHANNEL" = "beta" ] || [ "$CHANNEL" = "rc" ]; then
-            if [ "$BRANCH" != "development" ]; then
-              echo "Pré-release ($SUFFIX) só pode ser executado na branch development."
-              exit 1
-            fi
-            exit 0
-          fi
-
-          if [ "$CHANNEL" = "alpha" ]; then
-            if [ "$BRANCH" = "main" ] || [ "$BRANCH" = "development" ]; then
-              echo "Pré-release ($SUFFIX) não pode ser executado nas branches main ou development."
-              exit 1
-            fi
-            exit 0
-          fi
+          exit 0
       - name: Calculate new version
         id: release_tag
         run: |
@@ -81,16 +65,11 @@ jobs:
           esac
 
           VERSION="$MAJOR.$MINOR.$PATCH"
-          SUFFIX="${{ inputs.suffix }}"
-          if [ -n "$SUFFIX" ]; then
-            VERSION="$VERSION-$SUFFIX"
-          fi
-
           TAG="$VERSION"
 
           git fetch --tags --force
           if git ls-remote --exit-code --tags origin "refs/tags/$TAG" > /dev/null 2>&1; then
-            echo "Tag já existe no remoto: $TAG"
+            echo "Tag already exists on remote: $TAG"
             exit 1
           fi
 
@@ -104,22 +83,27 @@ jobs:
         run: npm ci
       - name: Set package version from input tag
         run: npm version ${{ steps.release_tag.outputs.version }} --no-git-tag-version
-      - name: Resolve publish arguments
-        id: publish_args
+      - name: Resolve package arguments
+        id: package_args
         run: |
-          ARGS="publish -p $VSCE_TOKEN"
+          ARGS=""
 
-          if [ -n "${{ inputs.suffix }}" ]; then
+          if [ "${{ inputs.prerelease }}" = "true" ]; then
             ARGS="$ARGS --pre-release"
           fi
 
           echo "args=$ARGS" >> "$GITHUB_OUTPUT"
-      - name: Publish extension
-        uses: JCofman/vscodeaction@v3.0.0
+          echo "vsix_filename=cslpreview-${{ steps.release_tag.outputs.version }}.vsix" >> "$GITHUB_OUTPUT"
+      - name: Package extension
+        run: npx vsce package -o ${{ steps.package_args.outputs.vsix_filename }} ${{ steps.package_args.outputs.args }}
+      - name: Publish extension to VSCode Marketplace
         env:
           VSCE_TOKEN: ${{ secrets.VSCE_TOKEN }}
-        with:
-          args: ${{ steps.publish_args.outputs.args }}
+        run: npx vsce publish -p $VSCE_TOKEN -i ${{ steps.package_args.outputs.vsix_filename }}
+      - name: Publish extension to OpenVSX Registry
+        env:
+          OVSX_TOKEN: ${{ secrets.OVSX_TOKEN }}
+        run: npx ovsx publish -p $OVSX_TOKEN -i ${{ steps.package_args.outputs.vsix_filename }}
       - name: Configure Git user
         run: |
           git config user.name "github-actions[bot]"
@@ -138,4 +122,4 @@ jobs:
         with:
           tag_name: ${{ steps.release_tag.outputs.tag }}
           generate_release_notes: true
-          prerelease: ${{ inputs.suffix != '' }}
+          prerelease: ${{ inputs.prerelease }}
