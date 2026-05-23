@@ -139,4 +139,38 @@ suite('CSL Preview tests', () => {
 		
 		vscode.window.showQuickPick = originalQuickPick;
 	});
+
+	test('Default locale settings test', async () => {
+		await vscode.commands.executeCommand('workbench.action.closeAllEditors');
+
+		const DEFAULT_TEST_LOCALE = 'fr-FR';
+
+		const originalQuickPick = vscode.window.showQuickPick;
+		(vscode.window as any).showQuickPick = async () => {
+			return l10n.t(Messages.DEFAULT_DOCUMENTS_CITABLES_SRC);
+		};
+
+		const config = vscode.workspace.getConfiguration('cslPreview');
+		await config.update('defaultLocale', DEFAULT_TEST_LOCALE, vscode.ConfigurationTarget.Global);
+
+		await vscode.workspace.openTextDocument({ content: cslStyle, language: 'xml' })
+			.then(doc => {
+				return vscode.window.showTextDocument(doc);
+			}).then(async () => {
+				await vscode.commands.executeCommand<Optional<Preview>>(CommandKeys.SHOW_PREVIEW)
+					.then(previewPromise => {
+						assert.ok(previewPromise.isPresent());
+						let preview = previewPromise.get();
+						assert.strictEqual(preview.getForcedLang(), DEFAULT_TEST_LOCALE);
+						assert.strictEqual(preview.getCurrentLang(), DEFAULT_TEST_LOCALE);
+
+						let previewContent = preview.getWebView().html;
+						assert.ok(previewContent.includes('(Hisakata, Nishida, et Johnston)'));
+						assert.ok(previewContent.includes('(Hisakata, Nishida, et Johnston; Musk; Hogue; Sambrook et Russell)'));
+					});
+			});
+
+		await config.update('defaultLocale', undefined, vscode.ConfigurationTarget.Global);
+		vscode.window.showQuickPick = originalQuickPick;
+	});
 });
