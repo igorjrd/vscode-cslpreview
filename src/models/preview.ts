@@ -2,6 +2,7 @@ import { CiteProcSys } from 'citeproc';
 import { TextEditor, TextDocument, WebviewPanel, Webview } from 'vscode';
 import CiteProcPreviewResourceRetriever from './citeproc-preview-resource-retriever';
 import Citable from './citable';
+import ConfigurationService from '../services/configuration-service';
 
 export default class Preview {
   private readonly textEditor: TextEditor;
@@ -15,6 +16,10 @@ export default class Preview {
     this.textEditor = textEditor;
     this.webviewPanel = webviewPanel;
     this.citeprocResourceRetriever = new CiteProcPreviewResourceRetriever(this);
+    
+    const defaultLocale = ConfigurationService.getDefaultLocale();
+    if (defaultLocale != undefined && defaultLocale !== '')
+      this.forcedLang = defaultLocale;
   }
 
   public getWebviewPanel(): WebviewPanel {

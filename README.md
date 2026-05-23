@@ -36,6 +36,10 @@ There is no know issues at the moment. If you experience trobles when using the 
 
 ## Release Notes
 
+### 1.0.1
+
+* Fixes default locale configuration not being used on preview creation [#25](https://github.com/igorjrd/vscode-cslpreview/issues/25)
+
 ### 1.0.0
 
 * Extension source language switched to TypeScript
