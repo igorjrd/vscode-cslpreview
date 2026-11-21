@@ -32,7 +32,7 @@ class SupplyDefaultDocumentsStrategy implements CitableSupplyingStategy {
   }
 
   readCitablesFromJson(input: Uri): Array<Citable> {
-    let path = input.path.slice(1)
+    let path = input.fsPath;
     return loadCitablesFromJsonFile(path);
   }
 }
