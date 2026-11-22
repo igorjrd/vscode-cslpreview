@@ -99,7 +99,7 @@ jobs:
       - name: Publish extension to VSCode Marketplace
         env:
           VSCE_TOKEN: ${{ secrets.VSCE_TOKEN }}
-        run: npx vsce publish -p $VSCE_TOKEN -i ${{ steps.package_args.outputs.vsix_filename }}
+        run: npx vsce publish --oidc -i ${{ steps.package_args.outputs.vsix_filename }}
       - name: Publish extension to OpenVSX Registry
         env:
           OVSX_TOKEN: ${{ secrets.OVSX_TOKEN }}
