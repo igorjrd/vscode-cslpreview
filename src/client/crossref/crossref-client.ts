@@ -13,7 +13,7 @@ export interface CrossRefCitable {
 }
 
 export default class CrossRefClient {
-  private static CROSS_REF_API_URL = "http://api.crossref.org/works";
+  private static CROSS_REF_API_URL = "https://api.crossref.org/works";
 
 
   static async requestCrossRef(doi: string): Promise<CrossRefResponse> {
