@@ -1,5 +1,14 @@
 # Change Log
 
+### 1.0.3
+
+* Release workflow using vsce OIDC
+* Partial dependency bump
+
+### 1.0.2
+
+* Fixes default citables JSON not being properly loaded on Linux [#27](https://github.com/igorjrd/vscode-cslpreview/issues/27)
+
 ### 1.0.1
 
 * Fixes default locale configuration not being used on preview creation [#25](https://github.com/igorjrd/vscode-cslpreview/issues/25)
